@@ -1,0 +1,32 @@
+services:
+  app:
+    build: 
+      context: ..
+      dockerfile: docker/Dockerfile
+    ports:
+      - "8000:8000"
+    env_file:
+      - ../.env
+    depends_on:
+      neo4j:
+        condition: service_healthy
+    restart: on-failure
+
+  neo4j:
+    image: neo4j:5.18-community
+    ports:
+      - "7474:7474"
+      - "7687:7687"
+    restart: always
+    environment:
+      - NEO4J_AUTH=neo4j/password
+    volumes:
+      - ./neo4j/logs:/logs
+      - ./neo4j/config:/config
+      - ./neo4j/data:/data
+      - ./neo4j/plugins:/plugins
+    healthcheck:
+      test: ["CMD", "cypher-shell", "-u", "neo4j", "-p", "password", "RETURN 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 5

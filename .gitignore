@@ -108,7 +108,8 @@ ehthumbs.db
 # ENVIRONMENT / SECRET KEYS
 # -----------------------------
 *.env
-.env.*
+# .env.*
+neo4j/
 .envrc
 *.secret
 secrets/
