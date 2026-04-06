@@ -1,0 +1,155 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+        
+            <script src="lib/bindings/utils.js"></script>
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/dist/vis-network.min.css" integrity="sha512-WgxfT5LWjfszlPHXRmBWHkV2eceiWTOBvrKCNbdgDYTHrT2AeLCGbF4sZlZw3UMN3WtL0tGUoIAKsu8mllg/XA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/vis-network.min.js" integrity="sha512-LnvoEWDFrqGHlHmDD2101OrLcbsfkrzoSpvtSQtxK3RMnRV0eOkhhBN2dXHKRrUU8p2DGRTk35n4O8nWSVe1mQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+            
+        
+<center>
+<h1></h1>
+</center>
+
+<!-- <link rel="stylesheet" href="../node_modules/vis/dist/vis.min.css" type="text/css" />
+<script type="text/javascript" src="../node_modules/vis/dist/vis.js"> </script>-->
+        <link
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6"
+          crossorigin="anonymous"
+        />
+        <script
+          src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"
+          integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf"
+          crossorigin="anonymous"
+        ></script>
+
+
+        <center>
+          <h1></h1>
+        </center>
+        <style type="text/css">
+
+             #mynetwork {
+                 width: 100%;
+                 height: 500px;
+                 background-color: #ffffff;
+                 border: 1px solid lightgray;
+                 position: relative;
+                 float: left;
+             }
+
+             
+
+             
+
+             
+        </style>
+    </head>
+
+
+    <body>
+        <div class="card" style="width: 100%">
+            
+            
+            <div id="mynetwork" class="card-body"></div>
+        </div>
+
+        
+        
+
+        <script type="text/javascript">
+
+              // initialize global variables.
+              var edges;
+              var nodes;
+              var allNodes;
+              var allEdges;
+              var nodeColors;
+              var originalNodes;
+              var network;
+              var container;
+              var options, data;
+              var filter = {
+                  item : '',
+                  property : '',
+                  value : []
+              };
+
+              
+
+              
+
+              // This method is responsible for drawing the graph, returns the drawn network
+              function drawGraph() {
+                  var container = document.getElementById('mynetwork');
+
+                  
+
+                  // parsing and collecting nodes and edges from the python
+                  nodes = new vis.DataSet([{"color": "#97c2fc", "id": "The Tragedy of Julius Caesar", "label": "The Tragedy of Julius Caesar", "shape": "dot"}, {"color": "#ffb347", "id": "a historical tragedy by William Shakespeare", "label": "a historical tragedy by William Shakespeare", "shape": "dot"}, {"color": "#ffb347", "id": "named after Julius Caesar", "label": "named after Julius Caesar", "shape": "dot"}, {"color": "#ffb347", "id": "written and first performed in 1599", "label": "written and first performed in 1599", "shape": "dot"}, {"color": "#97c2fc", "id": "The play", "label": "The play", "shape": "dot"}, {"color": "#ffb347", "id": "the political conspiracy that led to the assassination of Julius Caesar", "label": "the political conspiracy that led to the assassination of Julius Caesar", "shape": "dot"}, {"color": "#ffb347", "id": "Rome\u0027s subsequent civil war", "label": "Rome\u0027s subsequent civil war", "shape": "dot"}, {"color": "#ffb347", "id": "primarily from Sir Thomas North\u0027s 1579 translation of Parallel Lives by Plutarch", "label": "primarily from Sir Thomas North\u0027s 1579 translation of Parallel Lives by Plutarch", "shape": "dot"}, {"color": "#ffb347", "id": "a dramatised account of Caesar\u0027s growing power", "label": "a dramatised account of Caesar\u0027s growing power", "shape": "dot"}, {"color": "#ffb347", "id": "his murder by a group of senators", "label": "his murder by a group of senators", "shape": "dot"}, {"color": "#ffb347", "id": "the defeat of the conspirators", "label": "the defeat of the conspirators", "shape": "dot"}, {"color": "#97c2fc", "id": "Although", "label": "Although", "shape": "dot"}, {"color": "#ffb347", "id": "named after Caesar, the play focuses largely on Brutus", "label": "named after Caesar, the play focuses largely on Brutus", "shape": "dot"}, {"color": "#ffb347", "id": "on Brutus", "label": "on Brutus", "shape": "dot"}, {"color": "#ffb347", "id": "about the tension between personal loyalty and public duty", "label": "about the tension between personal loyalty and public duty", "shape": "dot"}, {"color": "#ffb347", "id": "about the use of rhetoric in politics", "label": "about the use of rhetoric in politics", "shape": "dot"}, {"color": "#ffb347", "id": "about the fragility of republican governance", "label": "about the fragility of republican governance", "shape": "dot"}, {"color": "#97c2fc", "id": "Julius Caesar", "label": "Julius Caesar", "shape": "dot"}, {"color": "#ffb347", "id": "among the first plays performed at the Globe Theatre", "label": "among the first plays performed at the Globe Theatre", "shape": "dot"}, {"color": "#ffb347", "id": "remained one of Shakespeare\u2019s most frequently staged works", "label": "remained one of Shakespeare\u2019s most frequently staged works", "shape": "dot"}, {"color": "#ffb347", "id": "been adapted in numerous forms", "label": "been adapted in numerous forms", "shape": "dot"}, {"color": "#ffb347", "id": "been interpreted in diverse political contexts", "label": "been interpreted in diverse political contexts", "shape": "dot"}, {"color": "#ffb347", "id": "widely studied for its exploration of character", "label": "widely studied for its exploration of character", "shape": "dot"}, {"color": "#ffb347", "id": "widely studied for its exploration of persuasion", "label": "widely studied for its exploration of persuasion", "shape": "dot"}, {"color": "#ffb347", "id": "widely studied for its exploration of political morality", "label": "widely studied for its exploration of political morality", "shape": "dot"}, {"color": "#97c2fc", "id": "The play opens", "label": "The play opens", "shape": "dot"}, {"color": "#ffb347", "id": "two tribunes", "label": "two tribunes", "shape": "dot"}, {"color": "#97c2fc", "id": "The tribunes", "label": "The tribunes", "shape": "dot"}, {"color": "#ffb347", "id": "the commoners celebrating Julius Caesar\u0027s triumphant return", "label": "the commoners celebrating Julius Caesar\u0027s triumphant return", "shape": "dot"}, {"color": "#ffb347", "id": "the crowd for their change in loyalty from Pompey to Caesar", "label": "the crowd for their change in loyalty from Pompey to Caesar", "shape": "dot"}, {"color": "#97c2fc", "id": "Cassius", "label": "Cassius", "shape": "dot"}, {"color": "#ffb347", "id": "to convince Brutus to join the conspiracy", "label": "to convince Brutus to join the conspiracy", "shape": "dot"}, {"color": "#ffb347", "id": "in convincing Brutus to join the conspiracy", "label": "in convincing Brutus to join the conspiracy", "shape": "dot"}, {"color": "#ffb347", "id": "letters of support from the Roman people", "label": "letters of support from the Roman people", "shape": "dot"}, {"color": "#97c2fc", "id": "Brutus", "label": "Brutus", "shape": "dot"}, {"color": "#ffb347", "id": "to join the conspiracy", "label": "to join the conspiracy", "shape": "dot"}, {"color": "#97c2fc", "id": "The conspirators", "label": "The conspirators", "shape": "dot"}, {"color": "#ffb347", "id": "Caesar with a fake petition", "label": "Caesar with a fake petition", "shape": "dot"}, {"color": "#97c2fc", "id": "Caesar", "label": "Caesar", "shape": "dot"}, {"color": "#ffb347", "id": "the petition", "label": "the petition", "shape": "dot"}, {"color": "#ffb347", "id": "\u0027Et tu, Brute?\u0027", "label": "\u0027Et tu, Brute?\u0027", "shape": "dot"}, {"color": "#ffb347", "id": "from his injuries", "label": "from his injuries", "shape": "dot"}, {"color": "#ffb347", "id": "to demonstrate that they killed Caesar for the good of Rome", "label": "to demonstrate that they killed Caesar for the good of Rome", "shape": "dot"}, {"color": "#ffb347", "id": "an oration defending his actions", "label": "an oration defending his actions", "shape": "dot"}, {"color": "#ffb347", "id": "defended by Brutus\u0027s rational speech", "label": "defended by Brutus\u0027s rational speech", "shape": "dot"}, {"color": "#97c2fc", "id": "Antony", "label": "Antony", "shape": "dot"}, {"color": "#ffb347", "id": "a subtle and eloquent speech over Caesar\u0027s corpse", "label": "a subtle and eloquent speech over Caesar\u0027s corpse", "shape": "dot"}, {"color": "#ffb347", "id": "public opinion against the assassins", "label": "public opinion against the assassins", "shape": "dot"}, {"color": "#ffb347", "id": "the emotions of the common people", "label": "the emotions of the common people", "shape": "dot"}, {"color": "#97c2fc", "id": "The crowd", "label": "The crowd", "shape": "dot"}, {"color": "#ffb347", "id": "moved by Antony\u0027s speech", "label": "moved by Antony\u0027s speech", "shape": "dot"}, {"color": "#ffb347", "id": "the conspirators from Rome", "label": "the conspirators from Rome", "shape": "dot"}, {"color": "#ffb347", "id": "the innocent poet Cinna", "label": "the innocent poet Cinna", "shape": "dot"}, {"color": "#ffb347", "id": "argue over Brutus\u0027s accusation that Cassius has soiled the noble act of regicide", "label": "argue over Brutus\u0027s accusation that Cassius has soiled the noble act of regicide", "shape": "dot"}, {"color": "#ffb347", "id": "Cassius and Brutus after Brutus reveals his reason for the accusation", "label": "Cassius and Brutus after Brutus reveals his reason for the accusation", "shape": "dot"}, {"color": "#ffb347", "id": "for a civil war against Antony", "label": "for a civil war against Antony", "shape": "dot"}, {"color": "#97c2fc", "id": "Brutus\u0027s", "label": "Brutus\u0027s", "shape": "dot"}, {"color": "#ffb347", "id": "appears to Brutus with a warning of defeat", "label": "appears to Brutus with a warning of defeat", "shape": "dot"}, {"color": "#ffb347", "id": "taunts Brutus about his imminent defeat", "label": "taunts Brutus about his imminent defeat", "shape": "dot"}, {"color": "#ffb347", "id": "himself after hearing of the capture of his best friend", "label": "himself after hearing of the capture of his best friend", "shape": "dot"}, {"color": "#97c2fc", "id": "Titinius", "label": "Titinius", "shape": "dot"}, {"color": "#ffb347", "id": "suicide", "label": "suicide", "shape": "dot"}, {"color": "#ffb347", "id": "against Antony\u0027s forces", "label": "against Antony\u0027s forces", "shape": "dot"}, {"color": "#ffb347", "id": "part of the battle", "label": "part of the battle", "shape": "dot"}, {"color": "#ffb347", "id": "the next day\u0027s battle", "label": "the next day\u0027s battle", "shape": "dot"}, {"color": "#ffb347", "id": "that Brutus has remained because he was the only conspirator who acted, in his mind, for the good of Rome", "label": "that Brutus has remained because he was the only conspirator who acted, in his mind, for the good of Rome", "shape": "dot"}, {"color": "#ffb347", "id": "at the friction between Antony and Octavius", "label": "at the friction between Antony and Octavius", "shape": "dot"}]);
+                  edges = new vis.DataSet([{"arrows": "to", "from": "The Tragedy of Julius Caesar", "label": "is", "to": "a historical tragedy by William Shakespeare"}, {"arrows": "to", "from": "The Tragedy of Julius Caesar", "label": "is", "to": "named after Julius Caesar"}, {"arrows": "to", "from": "The Tragedy of Julius Caesar", "label": "was", "to": "written and first performed in 1599"}, {"arrows": "to", "from": "The play", "label": "portrays", "to": "the political conspiracy that led to the assassination of Julius Caesar"}, {"arrows": "to", "from": "The play", "label": "portrays", "to": "Rome\u0027s subsequent civil war"}, {"arrows": "to", "from": "The play", "label": "draws", "to": "primarily from Sir Thomas North\u0027s 1579 translation of Parallel Lives by Plutarch"}, {"arrows": "to", "from": "The play", "label": "presents", "to": "a dramatised account of Caesar\u0027s growing power"}, {"arrows": "to", "from": "The play", "label": "presents", "to": "his murder by a group of senators"}, {"arrows": "to", "from": "The play", "label": "presents", "to": "the defeat of the conspirators"}, {"arrows": "to", "from": "Although", "label": "is", "to": "named after Caesar, the play focuses largely on Brutus"}, {"arrows": "to", "from": "The play", "label": "focuses", "to": "on Brutus"}, {"arrows": "to", "from": "The play", "label": "is", "to": "about the tension between personal loyalty and public duty"}, {"arrows": "to", "from": "The play", "label": "is", "to": "about the use of rhetoric in politics"}, {"arrows": "to", "from": "The play", "label": "is", "to": "about the fragility of republican governance"}, {"arrows": "to", "from": "Julius Caesar", "label": "was", "to": "among the first plays performed at the Globe Theatre"}, {"arrows": "to", "from": "Julius Caesar", "label": "has", "to": "remained one of Shakespeare\u2019s most frequently staged works"}, {"arrows": "to", "from": "Julius Caesar", "label": "has", "to": "been adapted in numerous forms"}, {"arrows": "to", "from": "Julius Caesar", "label": "has", "to": "been interpreted in diverse political contexts"}, {"arrows": "to", "from": "Julius Caesar", "label": "is", "to": "widely studied for its exploration of character"}, {"arrows": "to", "from": "Julius Caesar", "label": "is", "to": "widely studied for its exploration of persuasion"}, {"arrows": "to", "from": "Julius Caesar", "label": "is", "to": "widely studied for its exploration of political morality"}, {"arrows": "to", "from": "The play opens", "label": "with", "to": "two tribunes"}, {"arrows": "to", "from": "The tribunes", "label": "discover", "to": "the commoners celebrating Julius Caesar\u0027s triumphant return"}, {"arrows": "to", "from": "The tribunes", "label": "insult", "to": "the crowd for their change in loyalty from Pompey to Caesar"}, {"arrows": "to", "from": "Cassius", "label": "attempts", "to": "to convince Brutus to join the conspiracy"}, {"arrows": "to", "from": "Cassius", "label": "succeeds", "to": "in convincing Brutus to join the conspiracy"}, {"arrows": "to", "from": "Cassius", "label": "forges", "to": "letters of support from the Roman people"}, {"arrows": "to", "from": "Brutus", "label": "decides", "to": "to join the conspiracy"}, {"arrows": "to", "from": "The conspirators", "label": "approach", "to": "Caesar with a fake petition"}, {"arrows": "to", "from": "Caesar", "label": "rejects", "to": "the petition"}, {"arrows": "to", "from": "The conspirators", "label": "stab", "to": "Caesar"}, {"arrows": "to", "from": "Caesar", "label": "asks", "to": "\u0027Et tu, Brute?\u0027"}, {"arrows": "to", "from": "Caesar", "label": "dies", "to": "from his injuries"}, {"arrows": "to", "from": "The conspirators", "label": "attempt", "to": "to demonstrate that they killed Caesar for the good of Rome"}, {"arrows": "to", "from": "Brutus", "label": "delivers", "to": "an oration defending his actions"}, {"arrows": "to", "from": "Brutus", "label": "is", "to": "defended by Brutus\u0027s rational speech"}, {"arrows": "to", "from": "Antony", "label": "makes", "to": "a subtle and eloquent speech over Caesar\u0027s corpse"}, {"arrows": "to", "from": "Antony", "label": "turns", "to": "public opinion against the assassins"}, {"arrows": "to", "from": "Antony", "label": "manipulates", "to": "the emotions of the common people"}, {"arrows": "to", "from": "The crowd", "label": "is", "to": "moved by Antony\u0027s speech"}, {"arrows": "to", "from": "The crowd", "label": "drives", "to": "the conspirators from Rome"}, {"arrows": "to", "from": "The crowd", "label": "kills", "to": "the innocent poet Cinna"}, {"arrows": "to", "from": "Brutus", "label": "and Cassius", "to": "argue over Brutus\u0027s accusation that Cassius has soiled the noble act of regicide"}, {"arrows": "to", "from": "Brutus", "label": "reconciles", "to": "Cassius and Brutus after Brutus reveals his reason for the accusation"}, {"arrows": "to", "from": "Brutus", "label": "prepares", "to": "for a civil war against Antony"}, {"arrows": "to", "from": "Brutus\u0027s", "label": "ghost", "to": "appears to Brutus with a warning of defeat"}, {"arrows": "to", "from": "Brutus\u0027s", "label": "ghost", "to": "taunts Brutus about his imminent defeat"}, {"arrows": "to", "from": "Cassius", "label": "kills", "to": "himself after hearing of the capture of his best friend"}, {"arrows": "to", "from": "Titinius", "label": "commits", "to": "suicide"}, {"arrows": "to", "from": "Brutus", "label": "battles", "to": "against Antony\u0027s forces"}, {"arrows": "to", "from": "Brutus", "label": "wins", "to": "part of the battle"}, {"arrows": "to", "from": "Brutus", "label": "wins", "to": "the next day\u0027s battle"}, {"arrows": "to", "from": "Brutus", "label": "commits", "to": "suicide"}, {"arrows": "to", "from": "Brutus", "label": "dies", "to": "from his injuries"}, {"arrows": "to", "from": "Antony", "label": "proclaims", "to": "that Brutus has remained because he was the only conspirator who acted, in his mind, for the good of Rome"}, {"arrows": "to", "from": "Antony", "label": "hints", "to": "at the friction between Antony and Octavius"}]);
+
+                  nodeColors = {};
+                  allNodes = nodes.get({ returnType: "Object" });
+                  for (nodeId in allNodes) {
+                    nodeColors[nodeId] = allNodes[nodeId].color;
+                  }
+                  allEdges = edges.get({ returnType: "Object" });
+                  // adding nodes and edges to the graph
+                  data = {nodes: nodes, edges: edges};
+
+                  var options = {
+    "configure": {
+        "enabled": false
+    },
+    "edges": {
+        "color": {
+            "inherit": true
+        },
+        "smooth": {
+            "enabled": true,
+            "type": "dynamic"
+        }
+    },
+    "interaction": {
+        "dragNodes": true,
+        "hideEdgesOnDrag": false,
+        "hideNodesOnDrag": false
+    },
+    "physics": {
+        "enabled": true,
+        "stabilization": {
+            "enabled": true,
+            "fit": true,
+            "iterations": 1000,
+            "onlyDynamicEdges": false,
+            "updateInterval": 50
+        }
+    }
+};
+
+                  
+
+
+                  
+
+                  network = new vis.Network(container, data, options);
+
+                  
+
+                  
+
+                  
+
+
+                  
+
+                  return network;
+
+              }
+              drawGraph();
+        </script>
+    </body>
+</html>

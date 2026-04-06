@@ -13,6 +13,7 @@ services:
     restart: on-failure
 
   neo4j:
+    profiles: ["neo4j"]
     image: neo4j:5.18-community
     ports:
       - "7474:7474"
