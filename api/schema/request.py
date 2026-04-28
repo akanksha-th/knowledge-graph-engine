@@ -1,7 +1,8 @@
+from certifi import contents
 from pydantic import BaseModel, field_validator
 from fastapi import UploadFile
 
-MAX_TEXT_LENGTH = 8000
+MAX_TEXT_LENGTH = 80000
 MAX_FILE_SIZE = 1024*1024*1     # 1MB in bytes
 ALLOWED_MIME = "text/plain"
 
@@ -31,7 +32,12 @@ async def validate_upload(file: UploadFile) -> str:
     if len(contents) > MAX_FILE_SIZE:
         raise ValueError(f"File size exceeds 1MB (got {len(contents)} bytes).")
     
-    text = contents.decode("utf-8").strip()
+    try:
+        text = contents.decode("utf-8")
+    except UnicodeDecodeError:
+        text = contents.decode("latin-1")  # fallback
+
+    text = text.strip()
     if not text:
         raise ValueError("File cannot be empty."
         )
